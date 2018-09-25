@@ -4,5 +4,6 @@ public class Goo {
 	@Deprecated
 	public void goo() {
 		System.out.println("goo");
+	
 	}
 }
