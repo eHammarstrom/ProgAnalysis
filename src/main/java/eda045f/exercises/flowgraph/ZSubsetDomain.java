@@ -1,9 +1,6 @@
 package eda045f.exercises.flowgraph;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class ZSubsetDomain implements DomainSet<Integer> {
+public abstract class ZSubsetDomain implements ValueDomainSet<Integer> {
 	protected Integer min;
 	protected Integer max;
 	protected Integer bottom = Integer.MIN_VALUE;
@@ -17,19 +14,6 @@ public abstract class ZSubsetDomain implements DomainSet<Integer> {
 		this.max = max;
 	}
 
-	@Override
-	public List<Integer> getOrdered() {
-		List<Integer> l = new ArrayList<Integer>();
-		
-		l.add(bottom());
-		for(int i = min; i <= max; ++i) {
-			l.add(Integer.valueOf(i));
-		}
-		l.add(top());
-		
-		return l;
-	}
-	
 	protected boolean inSpecific(Integer x) {
 		return min <= x && x <= max;
 	}
@@ -139,11 +123,6 @@ public abstract class ZSubsetDomain implements DomainSet<Integer> {
 		if(top() == t1) return top();
 		if(large(t1)) return largeNegative(t1) ? lp() : ln();
 		return (doRound(-1 * t1));
-	}
-	
-	@Override
-	public Integer unknown() {
-		return bottom();
 	}
 	
 	@Override
