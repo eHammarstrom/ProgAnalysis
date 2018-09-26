@@ -68,6 +68,11 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/resources/jce.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>org.javatuples</groupId>
+            <artifactId>javatuples</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
