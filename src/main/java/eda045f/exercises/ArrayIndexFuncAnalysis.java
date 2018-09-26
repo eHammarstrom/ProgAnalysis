@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.javatuples.Pair;
 
-import eda045f.exercises.flowgraph.implementation.ArrayIndexDomainSet2;
+import eda045f.exercises.flowgraph.implementation.ArrayIndexDomainSet;
 import eda045f.exercises.flowgraph.implementation.ArrayIndexFlow;
 import soot.Body;
 import soot.BodyTransformer;
@@ -36,7 +36,7 @@ public class ArrayIndexFuncAnalysis extends BodyTransformer {
 	@Override
 	protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
 		Chain<Local> locals = b.getLocals();
-		ArrayIndexDomainSet2 aiad = new ArrayIndexDomainSet2(-10, 10);
+		ArrayIndexDomainSet aiad = new ArrayIndexDomainSet(-10, 10);
 		ArrayIndexFlow fg = new ArrayIndexFlow(new CompleteUnitGraph(b), locals, aiad);
 		getArrayRefs(b).stream().forEach(pca -> pca.getValue0().getIndex()
 				.apply(new ArrayIndexCheckSwitch(aiad, fg, pca.getValue1(), b.getMethod())));
@@ -45,10 +45,10 @@ public class ArrayIndexFuncAnalysis extends BodyTransformer {
 	protected class ArrayIndexCheckSwitch extends AbstractJimpleValueSwitch {
 		private ArrayIndexFlow fg;
 		private Stmt s;
-		private ArrayIndexDomainSet2 aiad;
+		private ArrayIndexDomainSet aiad;
 		private SootMethod m;
 
-		public ArrayIndexCheckSwitch(ArrayIndexDomainSet2 aiad, ArrayIndexFlow fg, Stmt s, SootMethod m) {
+		public ArrayIndexCheckSwitch(ArrayIndexDomainSet aiad, ArrayIndexFlow fg, Stmt s, SootMethod m) {
 			this.fg = fg;
 			this.aiad = aiad;
 			this.s = s;

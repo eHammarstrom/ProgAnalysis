@@ -19,7 +19,6 @@ public abstract class ZSubsetDomain implements DomainSet<Integer> {
 
 	@Override
 	public List<Integer> getOrdered() {
-		
 		List<Integer> l = new ArrayList<Integer>();
 		
 		l.add(bottom());

@@ -68,7 +68,7 @@ public class ArrayIndexFlow extends AbstractFlowAnalysis<Value, Unit, Integer> {
 			v.getOp2().apply(this);
 			res = abstractDomain.add(res1, res);
 		}
-		
+
 		@Override
 		public void caseMulExpr(MulExpr v) {
 			v.getOp1().apply(this);
@@ -84,7 +84,7 @@ public class ArrayIndexFlow extends AbstractFlowAnalysis<Value, Unit, Integer> {
 			v.getOp2().apply(this);
 			res = abstractDomain.sub(res1, res);
 		}
-		
+
 		@Override
 		public void caseDivExpr(DivExpr v) {
 			v.getOp1().apply(this);
@@ -92,7 +92,7 @@ public class ArrayIndexFlow extends AbstractFlowAnalysis<Value, Unit, Integer> {
 			v.getOp2().apply(this);
 			res = abstractDomain.div(res1, res);
 		}
-		
+
 		@Override
 		public void caseLocal(Local v) {
 			res = input.get(v);
@@ -111,8 +111,7 @@ public class ArrayIndexFlow extends AbstractFlowAnalysis<Value, Unit, Integer> {
 	}
 
 	@Override
-	protected void doTransition(HashMap<Value, Integer> in, Unit d,
-			HashMap<Value, Integer> out) {
+	protected void doTransition(HashMap<Value, Integer> in, Unit d, HashMap<Value, Integer> out) {
 		input = in;
 		output = out;
 		d.apply(stmtSwitch);

@@ -2,9 +2,9 @@ package eda045f.exercises.flowgraph.implementation;
 
 import eda045f.exercises.flowgraph.ZSubsetDomain;
 
-public class ArrayIndexDomainSet2 extends ZSubsetDomain {
+public class ArrayIndexDomainSet extends ZSubsetDomain {
 
-	public ArrayIndexDomainSet2(Integer min, Integer max) {
+	public ArrayIndexDomainSet(Integer min, Integer max) {
 		super(min, max);
 	}
 
