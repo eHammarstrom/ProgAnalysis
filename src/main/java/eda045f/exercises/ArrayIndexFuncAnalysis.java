@@ -58,15 +58,13 @@ public class ArrayIndexFuncAnalysis extends BodyTransformer {
 		@Override
 		public void caseLocal(Local v) {
 			if (aiad.negative(fg.getFlowBefore(s).get(v)))
-				System.out.println("Definetely a negative local array reference: " + v + " at: "
-						+ s.getJavaSourceStartLineNumber() + ", " + m.getSignature());
+				System.out.println("DEP " + m.getSignature() + " " + s.getJavaSourceStartLineNumber());
 		}
 
 		@Override
 		public void caseIntConstant(IntConstant v) {
 			if (v.value < 0) {
-				System.out.println("Definetely a negative immediate array reference: " + v + " at: "
-						+ s.getJavaSourceStartLineNumber());
+				System.out.println("DEP " + m.getSignature() + " " + s.getJavaSourceStartLineNumber());
 			}
 		}
 
