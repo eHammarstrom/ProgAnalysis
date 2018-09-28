@@ -18,20 +18,22 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 	}
 
 	@Override
-	protected void flowThrough(Set<Value> in, Unit d, Set<Value> out) {
+    protected void flowThrough(Set<Value> in, Unit d, Set<Value> out) {
 		System.out.println(in);
 		copy(in, out);
+        // Kill
 		d.getDefBoxes().stream().forEach(vb -> out.remove(vb.getValue()));
+        // Gen
 		d.getUseBoxes().stream().forEach(vb -> {
-			Set<Value> up = new HashSet<>();
-			ArrayIndexValueSwitch sw = new ArrayIndexValueSwitch(up);
+			Set<Value> genset = new HashSet<>();
+			LiveFlowValueSwitch sw = new LiveFlowValueSwitch(genset);
 			unpack(vb.getValue(), sw);
-			copy(up, out);
+			copy(genset, out);
 		});
 		System.out.println(out);
 	}
 	
-	private void unpack(Value v, ArrayIndexValueSwitch sw) {
+	private void unpack(Value v, LiveFlowValueSwitch sw) {
 		v.getUseBoxes().stream().forEach(vb -> vb.getValue().apply(sw));
 	}
 
@@ -50,9 +52,9 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 		source.stream().forEach(v -> dest.add(v));
 	}
 	
-	protected class ArrayIndexValueSwitch extends AbstractJimpleValueSwitch {
+	protected class LiveFlowValueSwitch extends AbstractJimpleValueSwitch {
 		private Set<Value> sv;
-		public ArrayIndexValueSwitch(Set<Value> sv) {
+		public LiveFlowValueSwitch(Set<Value> sv) {
 			this.sv = sv;
 		}
 		
