@@ -42,33 +42,33 @@ public class Foo {
 //	/**
 //	 * @deprecated
 //	 */
-//	public void badUsage() {
-//		int[] a = new int[5];
-//		a[-1] = 5;
-//		a[0] = 1;
-//		a[1] = 2;
-//		int i = 3;
-//		int j = 4;
-//		int z = -5;
-//		int m = -1;
-//		int p = 100;
-//		int l = -100;
-//		while (true) {
-//			i = i - 1;
-//			j = -j + 1;
-//			z = z - 5;
-//			m = m * p;
-//			p = p * 100;
-//			l = z * 0;
-//			System.out.println(a[i]);
-//			System.out.println(a[j]);
-//			System.out.println(a[z]);
-//			System.out.println(a[m]);
-//			System.out.println(a[p]);
-//			System.out.println(a[l]);
-//			i = a[-3];
-//		}
-//	}
+	public void badUsage() {
+		int[] a = new int[5];
+		a[-1] = 5;
+		a[0] = 1;
+		a[1] = 2;
+		int i = 3;
+		int j = 4;
+		int z = -5;
+		int m = -1;
+		int p = 100;
+		int l = -100;
+		while (true) {
+			i = i - 1;
+			j = -j + 1;
+			z = z - 5;
+			m = m * p;
+			p = p * 100;
+			l = z * 0;
+			System.out.println(a[i]);
+			System.out.println(a[j]);
+			System.out.println(a[z]);
+			System.out.println(a[m]);
+			System.out.println(a[p]);
+			System.out.println(a[l]);
+			i = a[-3];
+		}
+	}
 //
 //	public static int[] delta(int t) {
 //		int[] d = new int[t];
@@ -79,13 +79,13 @@ public class Foo {
 //		return d;
 //	}
 //
-//	static int sumup(int[] arg) {
-//		int offset = 1;
-//		int acc = arg[offset--];
-//		acc += arg[offset--];
-//		acc += arg[offset--];
-//		return acc;
-//	}
+	static int sumup(int[] arg) {
+		int offset = 1;
+		int acc = arg[offset--];
+		acc += arg[offset--];
+		acc += arg[offset--];
+		return acc;
+	}
 //
 //	public void simple() {
 //		int[] a = new int[5];
@@ -197,19 +197,19 @@ public class Foo {
 //		System.out.println(a[x]);
 //	}
 	
-	void livetest() {
-		int z = 5;
-		int x = 1;
-		int y = 2;
-		
-		if(z > 4) {
-			y = z;
-			if(z < 10) {
-				z = 7;
-			}
-		}
-		System.out.println(y);
-	}
+//	void livetest() {
+//		int z = 5;
+//		int x = 1;
+//		int y = 2;
+//		
+//		if(z > 4) {
+//			y = z;
+//			if(z < 10) {
+//				z = 7;
+//			}
+//		}
+//		System.out.println(y);
+//	}
 
 //	private static class Boo {
 //		public static void main(String args) {
