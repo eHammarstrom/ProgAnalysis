@@ -9,6 +9,8 @@ import soot.Local;
 import soot.Unit;
 import soot.Value;
 import soot.jimple.AbstractJimpleValueSwitch;
+import soot.jimple.AbstractStmtSwitch;
+import soot.jimple.ReturnStmt;
 import soot.toolkits.graph.DirectedGraph;
 
 public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<Value>>{
@@ -27,13 +29,24 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 		d.getUseBoxes().stream().forEach(vb -> {
 			Set<Value> genset = new HashSet<>();
 			LiveFlowValueSwitch sw = new LiveFlowValueSwitch(genset);
+
 			unpack(vb.getValue(), sw);
 			copy(genset, out);
 		});
+
+		Set<Value> genset = new HashSet<>();
+        LiveFlowStmtSwitch stw = new LiveFlowStmtSwitch(genset);
+		d.apply(stw);
+		copy(genset, out);
+
 		System.out.println(out);
 	}
 	
 	private void unpack(Value v, LiveFlowValueSwitch sw) {
+	    System.out.println("Unpacking: " + v);
+	    if (v instanceof Local) {
+	        System.out.println("^ was local");
+        }
 		v.getUseBoxes().stream().forEach(vb -> vb.getValue().apply(sw));
 	}
 
@@ -48,9 +61,7 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 	}
 
 	@Override
-	protected void copy(Set<Value> source, Set<Value> dest) {
-		source.stream().forEach(v -> dest.add(v));
-	}
+	protected void copy(Set<Value> source, Set<Value> dest) { dest.addAll(source); }
 	
 	protected class LiveFlowValueSwitch extends AbstractJimpleValueSwitch {
 		private Set<Value> sv;
@@ -60,12 +71,26 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 		
 		@Override
 		public void caseLocal(Local v) {
-			sv.add(v);
+		    System.out.println("caseLocal: " + v);
+		    sv.add(v);
 		}
 
 		@Override
-		public void defaultCase(Object v) {
-			unpack((Value)v, this);
-		}
+		public void defaultCase(Object v) { unpack((Value)v, this); }
 	}
+
+	protected class LiveFlowStmtSwitch extends AbstractStmtSwitch {
+	    private Set<Value> sv;
+
+	    public  LiveFlowStmtSwitch(Set<Value> sv) {
+	        this.sv = sv;
+        }
+
+	    @Override
+        public void caseReturnStmt(ReturnStmt ret) {
+	        if (ret.getOp() instanceof Local) {
+	            sv.add(ret.getOp());
+            }
+        }
+    }
 }
