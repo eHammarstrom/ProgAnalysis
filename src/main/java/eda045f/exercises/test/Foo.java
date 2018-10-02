@@ -202,7 +202,7 @@ public class Foo {
 		int x = 1;
 		int y = 2;
 		
-		if(z > branchcond1()) {
+		if(z > branchcond1()) { // not counted as use
 			y = z;
 			if(z < branchcond1()) {
 				z = 7;
