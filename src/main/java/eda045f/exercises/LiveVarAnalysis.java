@@ -7,6 +7,7 @@ import eda045f.exercises.flowgraph.implementation.LiveFlowDomain;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Local;
+import soot.Unit;
 import soot.jimple.AssignStmt;
 import soot.toolkits.graph.CompleteUnitGraph;
 
@@ -17,20 +18,25 @@ public class LiveVarAnalysis extends BodyTransformer {
 		LiveFlowDomain ld = new LiveFlowDomain();
 		LiveFlow fg = new LiveFlow(new CompleteUnitGraph(b), ld);
 		
-		b.getUnits().stream().forEach(u -> {
+		for (Unit u : b.getUnits()) {
             System.out.println(u + ":");
             System.out.println("\t" + fg.getFlowBefore(u));
             System.out.println("\t" + fg.getFlowAfter(u));
 
-			if (u instanceof AssignStmt) {
-			    AssignStmt a = (AssignStmt) u;
-			    Local l = (Local) a.getLeftOp();
+			if (!(u instanceof AssignStmt))
+			    continue;
 
-                if (!fg.getFlowBefore(u).contains(l)) {
-                    System.out.println("Unused var: " + l);
-                }
+            AssignStmt a = (AssignStmt) u;
+
+            if (!(a.getLeftOp() instanceof Local))
+                continue;
+
+            Local l = (Local) a.getLeftOp();
+
+            if (!fg.getFlowBefore(u).contains(l)) {
+                System.out.println("Unused var: " + l);
             }
-		});
+		}
 
         // Unit: [  [ y <- ... ], ... [ ]  ]
 	}
