@@ -19,10 +19,6 @@ public class LiveVarAnalysis extends BodyTransformer {
 		LiveFlow fg = new LiveFlow(new CompleteUnitGraph(b), ld);
 		
 		for (Unit u : b.getUnits()) {
-            System.out.println(u + ":");
-            System.out.println("\t" + fg.getFlowBefore(u));
-            System.out.println("\t" + fg.getFlowAfter(u));
-
 			if (!(u instanceof AssignStmt))
 			    continue;
 
@@ -34,7 +30,7 @@ public class LiveVarAnalysis extends BodyTransformer {
             Local l = (Local) a.getLeftOp();
 
             if (!fg.getFlowBefore(u).contains(l)) {
-                System.out.println("Unused var: " + l);
+                System.out.println("UVD " + b.getMethod().getSignature() + " " + u.getJavaSourceStartLineNumber());
             }
 		}
 

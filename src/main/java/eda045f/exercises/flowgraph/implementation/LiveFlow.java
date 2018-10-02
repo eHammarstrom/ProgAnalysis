@@ -21,7 +21,6 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 
 	@Override
     protected void flowThrough(Set<Value> in, Unit d, Set<Value> out) {
-		System.out.println(in);
 		copy(in, out);
         // Kill
 		d.getDefBoxes().stream().forEach(vb -> out.remove(vb.getValue()));
@@ -29,19 +28,12 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 		d.getUseBoxes().stream().forEach(vb -> {
 			Set<Value> genset = new HashSet<>();
 			LiveFlowValueSwitch sw = new LiveFlowValueSwitch(genset);
-
 			vb.getValue().apply(sw);
 			copy(genset, out);
 		});
-
-		System.out.println(out);
 	}
 	
 	private void unpack(Value v, LiveFlowValueSwitch sw) {
-	    System.out.println("Unpacking: " + v);
-	    if (v instanceof Local) {
-	        System.out.println("^ was local");
-        }
 		v.getUseBoxes().stream().forEach(vb -> vb.getValue().apply(sw));
 	}
 
@@ -65,10 +57,7 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 		}
 		
 		@Override
-		public void caseLocal(Local v) {
-		    System.out.println("caseLocal: " + v);
-		    sv.add(v);
-		}
+		public void caseLocal(Local v) { sv.add(v); }
 
 		@Override
 		public void defaultCase(Object v) { unpack((Value)v, this); }
