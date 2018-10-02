@@ -30,14 +30,9 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 			Set<Value> genset = new HashSet<>();
 			LiveFlowValueSwitch sw = new LiveFlowValueSwitch(genset);
 
-			unpack(vb.getValue(), sw);
+			vb.getValue().apply(sw);
 			copy(genset, out);
 		});
-
-		Set<Value> genset = new HashSet<>();
-        LiveFlowStmtSwitch stw = new LiveFlowStmtSwitch(genset);
-		d.apply(stw);
-		copy(genset, out);
 
 		System.out.println(out);
 	}
@@ -78,19 +73,4 @@ public class LiveFlow extends AbstractFlowAnalysis<Unit, Unit, Set<Value>, Set<V
 		@Override
 		public void defaultCase(Object v) { unpack((Value)v, this); }
 	}
-
-	protected class LiveFlowStmtSwitch extends AbstractStmtSwitch {
-	    private Set<Value> sv;
-
-	    public  LiveFlowStmtSwitch(Set<Value> sv) {
-	        this.sv = sv;
-        }
-
-	    @Override
-        public void caseReturnStmt(ReturnStmt ret) {
-	        if (ret.getOp() instanceof Local) {
-	            sv.add(ret.getOp());
-            }
-        }
-    }
 }

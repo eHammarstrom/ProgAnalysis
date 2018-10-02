@@ -35,5 +35,5 @@ mvn compile
 
 # mvn compile
 # mvn package
-java -cp target/classes:target/lib/* eda045f.exercises.MyMainClass -cp $cpSOOT -f j eda045f.exercises.test.Foo
+java -cp target/classes:target/lib/* eda045f.exercises.MyMainClass -cp $cpSOOT -f j -process-dir ./examples/EDAN045F-0.jar
 # java -cp target/DFAnalysis1-1.0-SNAPSHOT.jar:target/lib/* eda045f.exercises.MyMainClass -cp $cpSOOT -f j -p jb preserve-source-annotations eda045f.exercises.test.Foo
